@@ -1,0 +1,88 @@
+.gamanet-select-group {
+  position: relative;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  width: 19.5rem;
+}
+
+.gamanet-select-group label {
+  margin: 0;
+}
+
+.gamanet-select-group select {
+  display: none;
+}
+
+.select-selected {
+  color: #464544;
+  background-color: white;
+  border-radius: 0.25rem;
+  margin: 0.25rem 0;
+  border: 1px solid #eae9e9;
+  height: 2.5rem;
+}
+
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 1.25rem;
+  right: 0.75rem;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #817f7e transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active {
+  border: 1px solid #f48220;
+}
+
+.select-selected.disabled {
+  color: #a6a3a0;
+  cursor: default;
+}
+
+.select-selected.error {
+  border: 1px solid red;
+}
+
+.select-selected.disabled:after {
+  border-color: #a6a3a0 transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #817f7e transparent;
+  top: 0.85rem;
+}
+
+.select-items div {
+  color: #464544;
+}
+
+.select-items div, .select-selected {
+  padding-left: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.select-items {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: #fdfcfc;
+  color: #2f2e2d;
+  border-radius: 0.5rem;
+}
+

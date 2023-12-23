@@ -1,0 +1,48 @@
+Array
+(
+)
+
+Array
+(
+)
+
+Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => Trip Cost
+                )
+
+        )
+
+)
+Array
+(
+    [distancia] => 3.30
+    [items] => Array
+        (
+        )
+
+)
+Array
+(
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [id] => Trip Cost
+                )
+
+        )
+
+)
+Array
+(
+    [distancia] => 10.38
+    [items] => Array
+        (
+        )
+
+)

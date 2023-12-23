@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <title>Accept a payment</title>
+    <meta name="description" content="A demo of a payment on Stripe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="checkout.css" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,500,600,700&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Form-Select---Full-Date---Month-Day-Year.css">
+    <link rel="stylesheet" href="assets/css/Gamanet_Select_v1.css">
+    <link rel="stylesheet" href="assets/css/select2.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="checkout.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1IgRNa7g_zbuqnMuFZS6hEhnVNh4_YZ4&amp;libraries=places,directions&amp;callback=initMap&amp;v=weekly" defer=""></script>
+</head>
+
+<body>
+    <section class="position-relative py-4 py-xl-5">
+        <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                    
+                        
+                            
+                            <form id="payment-form" method="post">
+                                <div id="map"></div>
+                                <div class="mb-3" style="padding-top: 10px;">
+                                    <label class="form-label" style="font-size: 13px;">Pick Up Address</label>
+                                    <input class="form-control" type="text" id="start" name="name" placeholder="Enter Pick Up Address">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-size: 13px;">Drop Off Address</label>
+                                    <input class="form-control" type="text" id="end" placeholder="Enter Drop Off Address">
+                                </div>
+                                <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label class="form-label" style="font-size: 13px;">Time</label>
+                                            <input class="form-control form-control-sm" type="time" min="05:00" max="18:00">
+                                        </div>
+                                        <div class="col">
+                                            <label class="form-label" style="font-size: 13px;">Trip Type</label>
+                                            <div>
+                                                <select class="js-example-placeholder-single">
+                                                    <option value="AL">Ptivate</option>
+                                                    <option value="WY">Wheelechair</option>
+                                                    <option value="WY">Ambulatory</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label class="col-form-label" style="font-size: 13px;">Date
+                                                <input class="form-control form-control-sm" type="date">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div><label class="col-form-label" style="font-size: 13px;">Email
+                                </label>
+                                   
+                                <input class="form-control" type="email" id="email-input" placeholder="enter email"></div>
+                                <hr>
+                                <label class="form-label" data-bss-hover-animate="bounce" style="color: var(--bs-primary-text-emphasis);font-weight: bold;"><i class="fa fa-location-arrow" style="font-size: 17px;"></i>&nbsp;Directions:</label>
+                                <!-- Agrega este campo oculto antes de cerrar el formulario -->
+                                
+                                
+                                 <input type="hidden" id="costoDeViajeInput" name="costoDeViaje" value="">
+                                 <input type="hidden" name="distancia" id="distanceInput" value="123">
+
+                                <div id="output"></div>
+                                <hr>
+                                <label class="form-label" data-bss-hover-animate="rubberBand" style="color: var(--bs-primary-text-emphasis);font-weight: bold;"><i class="fa fa-road"></i>&nbsp;Distance:</label>
+                                <div id="distance"></div>
+                                <hr>
+                                <label class="form-label tada animated infinite" style="color: var(--bs-primary-text-emphasis);font-weight: bold;"><i class="icon ion-card"></i>&nbsp;Price:</label>
+                                
+                                    <div id="Costo-de-viaje">
+                                       
+
+<script>
+    function calcularCostoDeViaje() {
+        var distanciaElement = document.getElementById("distance");
+        var distancia = parseFloat(distanciaElement.textContent);
+        var costoDeViaje = (4 + 2.80 * distancia) + ((4 + 2.80 * distancia) * 0.08);
+        console.log("El costo del viaje es: " + costoDeViaje);
+    }
+      
+</script>
+
+
+
+                                        
+                                        
+                                    </div>
+                                
+                                <hr>
+                                <div style="margin-bottom: 10px;">
+                                    <div class="checkbox" required>
+                                        <label>
+                                            <input type="checkbox">
+                                            <span class="checkbox-material">
+                                                <span class="check"></span>
+                                            </span>Trips are considered booked after you receive confirmation from us by either phone or email. We require a minimum 24 notice for any cancellations. No-shows or cancellations with less than 24 hours notice will incur a $50 cancellation fee.
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="aqui-estan-los-codigos">
+                                    <script>
+                                        // JavaScript para capturar y mostrar los valores de los campos de entrada
+                                        const startElement = document.getElementById("start");
+                                        const endElement = document.getElementById("end");
+                                        const outputElement = document.getElementById("output");
+                                    
+                                        // Agregar eventos "focusout" para capturar los valores cuando los campos pierdan el foco
+                                        startElement.addEventListener("focusout", mostrarValores);
+                                        endElement.addEventListener("focusout", mostrarValores);
+                                    
+                                        function mostrarValores() {
+                                            const startValue = startElement.value;
+                                            const endValue = endElement.value;
+                                    
+                                            // Mostrar los valores en el elemento de salida
+                                            outputElement.innerHTML = `Pick-up Address: ${startValue}<br>Drop-off Address: ${endValue}`;
+                                        }
+                                    </script>
+                                    <script>
+                                        let map, directionsService, directionsDisplay;
+                                    
+                                        function initMap() {
+                                            map = new google.maps.Map(document.getElementById("map"), {
+                                                center: { lat: 29.7604, lng: -95.3698 },
+                                                zoom: 13,
+                                                mapTypeControl: false,
+                                            });
+                                    
+                                            directionsService = new google.maps.DirectionsService();
+                                            directionsDisplay = new google.maps.DirectionsRenderer();
+                                            directionsDisplay.setMap(map);
+                                    
+                                            const startInput = document.getElementById("start");
+                                            const endInput = document.getElementById("end");
+                                    
+                                            const autocompleteOptions = {
+                                                fields: ["formatted_address", "geometry", "name"],
+                                                types: ["address"],
+                                            };
+                                    
+                                            const startAutocomplete = new google.maps.places.Autocomplete(
+                                                startInput,
+                                                autocompleteOptions
+                                            );
+                                            const endAutocomplete = new google.maps.places.Autocomplete(
+                                                endInput,
+                                                autocompleteOptions
+                                            );
+                                    
+                                            startAutocomplete.bindTo("bounds", map);
+                                            endAutocomplete.bindTo("bounds", map);
+                                    
+                                            startAutocomplete.addListener("place_changed", () => {
+                                                calculateAndDisplayRoute();
+                                            });
+                                    
+                                            endAutocomplete.addListener("place_changed", () => {
+                                                calculateAndDisplayRoute();
+                                            });
+                                        }
+                                    
+ function calculateAndDisplayRoute() {
+    const start = document.getElementById("start").value;
+    const end = document.getElementById("end").value;
+
+    if (start && end) {
+        directionsService.route({
+            origin: { query: start },
+            destination: { query: end },
+            travelMode: google.maps.TravelMode.DRIVING,
+        }, (response, status) => {
+            if (status === "OK") {
+                directionsDisplay.setDirections(response);
+                const route = response.routes[0];
+                let totalDistanceMeters = 0;
+                let totalDuration = 0;
+
+                route.legs.forEach((leg) => {
+                    totalDistanceMeters += leg.distance.value;
+                    totalDuration += leg.duration.value;
+                });
+
+                // Convertir la distancia a millas
+                const totalDistanceMiles = (totalDistanceMeters / 1609.344).toFixed(2);
+                const durationInMinutes = Math.floor(totalDuration / 60);
+
+                // Mostrar la distancia en millas en el elemento HTML
+                const distanceElement = document.getElementById("distance");
+                distanceElement.innerText = "Distance: " + totalDistanceMiles + " miles";
+
+                // Calcular el costo del viaje
+                const costoDeViaje = (3.50 + 2.80 * totalDistanceMiles) + ((3.50 + 2.80 * totalDistanceMiles) * 0.08);
+
+                // Mostrar el costo de viaje en el elemento HTML
+                const costoDeViajeElement = document.getElementById("Costo-de-viaje");
+                costoDeViajeElement.innerText = "Travel cost: $" + costoDeViaje.toFixed(2);
+
+                // Enviar la distancia al servidor después de mostrar los datos
+                enviarDistanciaAlServidor(totalDistanceMiles);
+            } else {
+                window.alert("Directions request failed due to " + status);
+            }
+        });
+    }
+}
+
+
+
+function enviarDistanciaAlServidor(totalDistanceMiles) {
+    // Verificar la distancia en la consola antes de enviarla al servidor
+    console.log("Distancia a enviar al servidor:", totalDistanceMiles);
+
+    // Crear un objeto con la distancia
+    const data = {
+        distancia: totalDistanceMiles,
+        items: [] // Asegúrate de incluir cualquier otro dato necesario para el servidor
+    };
+
+    // Realizar una solicitud AJAX al servidor
+    fetch('/create.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('La solicitud al servidor no fue exitosa. Código de estado: ' + response.status);
+        }
+        return response.json(); // Intentar analizar la respuesta como JSON
+    })
+    .then(parsedData => {
+        // Analizar la respuesta como JSON
+        console.log('Respuesta del servidor:', parsedData);
+        // Puedes realizar más acciones aquí según la respuesta del servidor
+    })
+    .catch(error => {
+        console.error('Error al enviar la distancia al servidor:', error.message);
+
+        // Manejo especial si la respuesta no es JSON
+        if (error.response) {
+            error.response.text().then(text => console.error('Contenido de la respuesta (no es JSON):', text));
+        } else {
+            console.error('No se pudo obtener el contenido de la respuesta.');
+        }
+    });
+}
+
+
+ </script>
+             </div>
+                                <hr>
+                                <div id="card-element">
+                                    <div id="payment-element"></div>
+                                  </div>
+                                  <div id="card-errors" role="alert"></div>
+                                <div id="payment-element"></div>
+                                <div>
+                                    <button id="submit">
+                                        <div class="spinner hidden" id="spinner"></div>
+                                        <span id="button-text">Pay now</span>
+                                    </button>
+                                </div>
+                                <div id="payment-message" class="hidden"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/Gamanet_Select_v1-select.js"></script>
+    <script src="assets/js/select2-anchor.min.js"></script>
+    <script src="assets/js/select2-placeholders.jquery.min.js"></script>
+    <script src="assets/js/select2-placeholders.js"></script>
+    <script src="assets/js/select2-prettify.min.js"></script>
+    <script src="assets/js/select2-select2.full.js"></script>
+    <script src="assets/js/select2-zcontent.js"></script>
+    <script src="assets/js/select2.js"></script>
+</body>
+
+</html>
